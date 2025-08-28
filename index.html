@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body.glitch {
+      animation: glitchBg 0.2s infinite;
+    }
+
+    @keyframes glitchBg {
+      0% { background-color: #000; }
+      50% { background-color: #111; }
+      100% { background-color: #000; }
+    }
+
+    .glitch-text {
+      position: relative;
+      color: red;
+      font-weight: bold;
+      animation: glitchText 0.3s infinite;
+    }
+
+    @keyframes glitchText {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-2px); }
+      40% { transform: translateX(2px); }
+      60% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+      100% { transform: translateX(0); }
+    }
+
+    #hackedPopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      color: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      z-index: 9999;
+      display: none;
+      animation: flicker 0.5s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body class="bg-black text-green-500 font-mono text-sm p-4">
+
+  <div id="terminal" class="whitespace-pre-wrap"></div>
+
+  <div id="hackedPopup">⚠️ YOU ARE HACKED! ⚠️</div>
+
+  <script>
+    const terminal = document.getElementById('terminal');
+    const popup = document.getElementById('hackedPopup');
+    const messages = [
+      "Accessing secure files...",
+      "Bypassing firewall...",
+      "Retrieving data from 127.0.0.1...",
+      "Establishing backdoor connection...",
+      "Uploading payload...",
+      "Downloading cookies...",
+      "Cracking password...",
+      "Injecting trojan...",
+      "Initiating root access...",
+      "System breach successful..."
+    ];
+
+    function typeEffect(text, i = 0) {
+      if (i < text.length) {
+        terminal.textContent += text.charAt(i);
+        setTimeout(() => typeEffect(text, i + 1), 30);
+      } else {
+        terminal.textContent += '\n';
+      }
+    }
+
+    // Typing fake terminal lines
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index >= messages.length) {
+        clearInterval(interval);
+        document.body.classList.add('glitch');
+        randomGlitches();
+        setTimeout(() => {
+          popup.style.display = 'flex';
+          playBeep();
+        }, 5000);
+        return;
+      }
+      typeEffect(messages[index]);
+      index++;
+    }, 800);
+
+    // Glitch Effects
+    function randomGlitches() {
+      const glitchInterval = setInterval(() => {
+        const glitchText = document.createElement('div');
+        glitchText.textContent = "!! WARNING SYSTEM COMPROMISED !!";
+        glitchText.className = "glitch-text text-2xl text-center mt-2";
+        terminal.appendChild(glitchText);
+        setTimeout(() => terminal.removeChild(glitchText), 1000);
+      }, 1200);
+    }
+
+    // Beep sound to freak them out
+    function playBeep() {
+      const context = new AudioContext();
+      function beep() {
+        const oscillator = context.createOscillator();
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1000, context.currentTime);
+        oscillator.connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.2);
+      }
+      setInterval(beep, 600);
+    }
+  </script>
+</body>
+</html>
